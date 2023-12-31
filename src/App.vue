@@ -67,7 +67,7 @@
       </header>
       <div class="row">
 
-        <div class="card col-md-3 m-2 p-0" v-for="note in notes" >
+        <div class="card col-md-3 m-2 p-0" v-for="note in notes" :key="note.id" >
           <div class="card-body" :style="{ backgroundColor : note.backgroundColor }">
             <h5 class="card-title">{{ note.title }}</h5>
             <p class="card-text">{{ note.text }}</p>
