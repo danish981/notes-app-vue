@@ -6,6 +6,7 @@
   const newNoteTitle = ref('');
   const newNoteText = ref('');
   const notes = ref([]);
+  const errorMessage = ref('');
 
   window.addEventListener('keydown', (event) => {
     if (event.key === 'Escape') {
@@ -18,6 +19,12 @@
   }
 
   const addNewNote = () => {
+
+    if(newNoteTitle.value.length < 10 || newNoteText.value.length < 10) {
+      errorMessage.value = 'Title and note text should be at least 10 characters long';
+      return;
+    }
+
     notes.value.push({
       id: Math.floor(Math.random() * 1000000),  
       title : newNoteTitle.value,
@@ -32,6 +39,7 @@
     showModal.value = false;
     newNoteTitle.value = '';
     newNoteText.value = '';
+    errorMessage.value = '';
   
   };
 
@@ -48,8 +56,9 @@
             <button type="button" class="btn-close" @click="showModal = false"  aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <input type="text" class="form-control mb-2" v-model="newNoteTitle" placeholder="Note Title">
-            <textarea class="form-control" cols="30" v-model="newNoteText" rows="10" placeholder="Write your note here..."></textarea>
+            <input type="text" class="form-control mb-2" v-model.trim="newNoteTitle" placeholder="Note Title">
+            <textarea class="form-control" cols="30" v-model.trim="newNoteText" rows="10" placeholder="Write your note here..."></textarea>
+            <p class="text-danger">{{ errorMessage }}</p>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" @click="showModal = false" >Close</button>
